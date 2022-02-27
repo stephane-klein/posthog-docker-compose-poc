@@ -56,6 +56,7 @@ services:
       SITE_URL: https://$DOMAIN
       DISABLE_SECURE_SSL_REDIRECT: 'true'
       IS_BEHIND_PROXY: 'true'
+      TRUST_ALL_PROXIES: 'true'
       DATABASE_URL: 'postgres://posthog:secret@postgres:5432/posthog'
       CLICKHOUSE_HOST: 'clickhouse'
       CLICKHOUSE_DATABASE: 'posthog'
