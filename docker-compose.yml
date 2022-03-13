@@ -101,7 +101,7 @@ services:
       - '8234:8234'
 
   plugins:
-    image: posthog/posthog:release-1.32.0
+    image: posthog/posthog:release-1.33.0
     command: ./bin/plugin-server --no-restart-loop
     restart: on-failure
     environment:
