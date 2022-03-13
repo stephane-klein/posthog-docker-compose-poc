@@ -48,7 +48,7 @@ services:
       - ./volumes/kafka/:/kafka/
 
   worker: &worker
-    image: posthog/posthog:release-1.32.0
+    image: posthog/posthog:release-1.33.0
     command: ./bin/docker-worker-celery --with-scheduler
     restart: on-failure
     environment:
