@@ -18,6 +18,10 @@ services:
     restart: on-failure
     ports:
         - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      start_period: 30s
 
   clickhouse:
     build: ./clickhouse-posthog/
@@ -27,6 +31,11 @@ services:
       - zookeeper
     volumes:
       - ./volumes/clickhouse/:/var/lib/clickhouse/
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider localhost:8123/ping || exit 1
+      interval: 2s
+      timeout: 2s
+      retries: 16
 
   zookeeper:
     image: wurstmeister/zookeeper
@@ -37,7 +46,7 @@ services:
       - ./volumes/zookeeper/logs/:/logs/
 
   kafka:
-    image: wurstmeister/kafka
+    image: wurstmeister/kafka:2.13-2.8.1
     restart: on-failure
     depends_on:
       - zookeeper
@@ -70,10 +79,14 @@ services:
       PGUSER: posthog
       PGPASSWORD: posthog
     depends_on:
-      - postgres
-      - redis
-      - clickhouse
-      - kafka
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
     links:
       - postgres:postgres
       - redis:redis
