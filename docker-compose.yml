@@ -111,10 +111,14 @@ services:
       REDIS_URL: 'redis://redis:6379/'
       CLICKHOUSE_HOST: 'clickhouse'
     depends_on:
-      - postgres
-      - redis
-      - clickhouse
-      - kafka
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
     links:
       - postgres:postgres
       - redis:redis
