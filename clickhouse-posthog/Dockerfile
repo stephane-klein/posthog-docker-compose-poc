@@ -6,6 +6,7 @@ RUN curl -L https://github.com/PostHog/posthog/archive/refs/tags/1.32.0.tar.gz |
 
 FROM yandex/clickhouse-server:21.6.5
 
+# this file list come from https://github.com/PostHog/posthog/blob/master/docker-compose.yml#L26
 COPY --from=0 /posthog-1.32.0/ee/idl/ /idl/
 COPY --from=0 /posthog-1.32.0/docker/clickhouse/docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 COPY --from=0 /posthog-1.32.0/docker/clickhouse/config.xml                 /etc/clickhouse-server/config.xml
