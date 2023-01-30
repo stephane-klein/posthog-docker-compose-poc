@@ -11,3 +11,6 @@ COPY --from=0 /posthog-1.40.0/posthog/idl/ /idl/
 COPY --from=0 /posthog-1.40.0/docker/clickhouse/docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 COPY --from=0 /posthog-1.40.0/docker/clickhouse/config.xml                 /etc/clickhouse-server/config.xml
 COPY --from=0 /posthog-1.40.0/docker/clickhouse/users.xml                  /etc/clickhouse-server/users.xml
+
+COPY ./log-server-config.xml                  /etc/clickhouse-server/config.d/
+COPY ./log-users-config.xml                  /etc/clickhouse-server/users.d/
