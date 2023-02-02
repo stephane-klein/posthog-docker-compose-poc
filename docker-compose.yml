@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   postgres:
-    image: postgres:14.5-alpine
+    image: postgres:12.13-alpine3.17
     environment:
       POSTGRES_DB: posthog
       POSTGRES_USER: posthog
@@ -60,7 +60,7 @@ services:
       ALLOW_PLAINTEXT_LISTENER: 'true'
 
   worker: &worker
-    image: posthog/posthog:release-1.40.0
+    image: posthog/posthog:release-1.43.0
     command: ./bin/docker-worker-celery --with-scheduler
     restart: on-failure
     environment:
@@ -108,7 +108,7 @@ services:
       - '8234:8234'
 
   plugins:
-    image: posthog/posthog:release-1.40.0
+    image: posthog/posthog:release-1.43.0
     command: ./bin/plugin-server --no-restart-loop
     restart: on-failure
     environment:
